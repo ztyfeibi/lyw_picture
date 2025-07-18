@@ -4,6 +4,8 @@ server:
     context-path: /api
 
 spring:
+  profiles:
+    active: local
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://localhost:3306/yu_picture?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
