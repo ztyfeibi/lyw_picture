@@ -38,6 +38,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     implements UserService{
 
     @Override
+    public boolean isAdmin(User user) {
+        return user != null && UserRoleEnum.ADMIN.getValue().equals(user.getUserRole());
+    }
+
+    @Override
     public long userRegister(String userAccount, String userPassword, String checkPassword) {
         //1.校验
         if (StringUtils.isBlank(userAccount) || StringUtils.isBlank(userPassword) || StringUtils.isBlank(checkPassword)) throw new BusinessException(ErrorCode.PARAMS_ERROR,"参数为空");

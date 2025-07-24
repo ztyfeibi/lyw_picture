@@ -14,6 +14,14 @@ import java.util.List;
 * 接口要写注释，这样就不用跳到具体实现去看了
 */
 public interface UserService extends IService<User> {
+
+    /**
+     * 判断用户是否为管理员
+     * @param user
+     * @return
+     */
+    boolean isAdmin(User user);
+
     /**
      *用户注册
      * @param userAccount   账号

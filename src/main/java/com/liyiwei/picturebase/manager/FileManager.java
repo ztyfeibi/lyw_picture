@@ -13,6 +13,9 @@ import com.qcloud.cos.model.PutObjectResult;
 import com.qcloud.cos.model.ciModel.persistence.ImageInfo;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -22,6 +25,7 @@ import java.util.List;
 
 
 @Slf4j
+@Service
 public class FileManager {
 
     @Resource
@@ -88,11 +92,11 @@ public class FileManager {
         //1. 校验文件大小
         long fileSize = file.getSize();
         final long ONE_M = 1024 * 1024L;
-        ThrowUtils.throwIf(fileSize > 2*ONE_M,ErrorCode.PARAMS_ERROR);
+        ThrowUtils.throwIf(fileSize > 5*ONE_M,ErrorCode.PARAMS_ERROR);
         //2. 校验文件后最
         String fileSuffix = FileUtil.getSuffix(file.getOriginalFilename());
         final List<String> ALLOW_FORMAT = Arrays.asList("jpeg","jpg","png","wwbp","bmp");
-        ThrowUtils.throwIf(ALLOW_FORMAT.contains(fileSuffix),ErrorCode.PARAMS_ERROR);
+        ThrowUtils.throwIf(!ALLOW_FORMAT.contains(fileSuffix),ErrorCode.PARAMS_ERROR);
     }
 
 
