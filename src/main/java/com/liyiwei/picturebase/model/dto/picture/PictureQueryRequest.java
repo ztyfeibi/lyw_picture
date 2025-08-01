@@ -71,5 +71,20 @@ public class PictureQueryRequest extends PageRequest implements Serializable {
      */
     private Long userId;
 
+    /**
+     * 审核状态
+     */
+    private Integer reviewStatus;
+
+    /**
+     * 审核消息
+     */
+    private String reviewMessage;
+
+    /**
+     * 审核人id
+     */
+    private Long reviewerId;
+
     private static final long serialVersionUID = 1L;
 }

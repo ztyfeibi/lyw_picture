@@ -13,8 +13,6 @@ import com.qcloud.cos.model.PutObjectResult;
 import com.qcloud.cos.model.ciModel.persistence.ImageInfo;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -70,7 +68,7 @@ public class FileManager {
             uploadPictureResult.setPicScale(picScale);
             uploadPictureResult.setPicFormat(imageInfo.getFormat());
             uploadPictureResult.setPicSize(FileUtil.size(resFile));
-            uploadPictureResult.setUrl(cosClientConfig.getHost());
+            uploadPictureResult.setUrl(cosClientConfig.getHost() + uploadPath);
 
             return uploadPictureResult;
         }catch (Exception e){
