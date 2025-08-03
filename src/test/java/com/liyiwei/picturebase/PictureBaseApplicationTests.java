@@ -9,7 +9,7 @@ class PictureBaseApplicationTests {
 
     @Test
     void contextLoads() {
-        UserRoleEnum.getEnumByValue("user");
+        throw new RuntimeException("test msg");
     }
 
 }

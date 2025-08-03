@@ -17,7 +17,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-@Aspect
+@Aspect // 用于标记一个类是切面，被 @Aspect 标记的类可以定义横切逻辑，比如权限校验、日志记录等，Spring 会自动识别并织入这些逻辑到目标方法中。
 @Component
 public class AuthInterceptor {
 
@@ -33,7 +33,7 @@ public class AuthInterceptor {
     @Around("@annotation(authCheck)")
     public Object doInterceptor(ProceedingJoinPoint joinPoint, AuthCheck authCheck) throws Throwable {
         String mustRole = authCheck.mustRole();
-        RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
+        RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();//从 Spring 的 RequestContextHolder 获取当前请求的上下文对象 RequestAttributes。
         HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
         // 当前登录用户
         User loginUser = userService.getLoginUser(request);

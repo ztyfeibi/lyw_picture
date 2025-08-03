@@ -11,6 +11,15 @@ spring:
     url: jdbc:mysql://localhost:3306/yu_picture?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: root
     password: li130214
+  data:
+    cache:
+      enabled: true
+      type: redis
+    redis:
+      database: 0
+      host: 127.0.0.1
+      port: 6379
+      timeout: 5000
 
 mybatis-plus:
   global-config:
