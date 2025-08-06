@@ -1,4 +1,4 @@
-package com.liyiwei.picturebase.model.entity;
+package com.liyiwei.picturebase.model.enums;
 
 import cn.hutool.core.util.ObjUtil;
 import lombok.Getter;

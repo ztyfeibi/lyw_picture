@@ -5,7 +5,7 @@ import com.liyiwei.picturebase.annotation.AuthCheck;
 import com.liyiwei.picturebase.exception.BusinessException;
 import com.liyiwei.picturebase.exception.ErrorCode;
 import com.liyiwei.picturebase.model.entity.User;
-import com.liyiwei.picturebase.model.entity.UserRoleEnum;
+import com.liyiwei.picturebase.model.enums.UserRoleEnum;
 import com.liyiwei.picturebase.service.UserService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;

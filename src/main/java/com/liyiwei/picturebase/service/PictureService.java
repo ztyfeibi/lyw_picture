@@ -2,9 +2,7 @@ package com.liyiwei.picturebase.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.liyiwei.picturebase.model.dto.picture.PictureQueryRequest;
-import com.liyiwei.picturebase.model.dto.picture.PictureReviewRequest;
-import com.liyiwei.picturebase.model.dto.picture.PictureUploadRequest;
+import com.liyiwei.picturebase.model.dto.picture.*;
 import com.liyiwei.picturebase.model.entity.Picture;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.liyiwei.picturebase.model.entity.User;
@@ -12,6 +10,8 @@ import com.liyiwei.picturebase.model.vo.PictureVO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
 * @author 16001
@@ -74,4 +74,62 @@ public interface PictureService extends IService<Picture> {
      * @return
      */
     void fillReviewParams(Picture picture,User loginUser);
+
+    /**
+     * 删除图片
+     * @param pictureId
+     * @param loginUser
+     */
+    void deletePicture(Long pictureId, User loginUser);
+
+    /**
+     * 清除图片文件
+     * @param oldPicture
+     */
+    void clearPictureFile(Picture oldPicture);
+
+    /**
+     * 校验用户的图片权限
+     * @param picture
+     * @param loginUser
+     */
+    void checkPictureAuth(Picture picture, User loginUser);
+
+    /**
+     * 编辑图片
+     * @param editRequest
+     * @param loginUser
+     */
+    void editPicture(PictureEditRequest editRequest,User loginUser);
+
+    /**
+     * 根据颜色查询图片
+     * @param spaceId
+     * @param picColor
+     * @param loginUser
+     * @return
+     */
+    List<PictureVO> searchPictureByColor(Long spaceId,String picColor,User loginUser);
+
+    /**
+     * 批量操作
+     * @param editByBatchRequest
+     * @param loginUser
+     */
+    void editPictureByBatch(PictureEditByBatchRequest editByBatchRequest,User loginUser);
+
+//    /**
+//     * 多线程批量操作
+//     * @param request
+//     * @param spaceId
+//     * @param loginUserId
+//     */
+//    void batchEditPictureMetadata(PictureBatchEditRequest request, Long spaceId, Long loginUserId)
+
+    /**
+     * nameRule格式： 图片(序号)
+     * @param pictureList
+     * @param nameRule
+     */
+    void fillPictureWithNameRule(List<Picture> pictureList,String nameRule);
 }

@@ -1,4 +1,4 @@
-package com.liyiwei.picturebase.model.entity;
+package com.liyiwei.picturebase.model.enums;
 
 import io.micrometer.common.util.StringUtils;
 import lombok.Getter;

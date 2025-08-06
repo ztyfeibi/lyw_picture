@@ -14,17 +14,18 @@ import com.liyiwei.picturebase.exception.ThrowUtils;
 import com.liyiwei.picturebase.model.constant.UserConstant;
 import com.liyiwei.picturebase.model.dto.picture.*;
 import com.liyiwei.picturebase.model.entity.Picture;
-import com.liyiwei.picturebase.model.entity.PictureReviewStatusEnum;
+import com.liyiwei.picturebase.model.entity.Space;
+import com.liyiwei.picturebase.model.enums.PictureReviewStatusEnum;
 import com.liyiwei.picturebase.model.entity.PictureTagCategory;
 import com.liyiwei.picturebase.model.entity.User;
 import com.liyiwei.picturebase.model.vo.PictureVO;
 import com.liyiwei.picturebase.service.PictureService;
+import com.liyiwei.picturebase.service.SpaceService;
 import com.liyiwei.picturebase.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,6 +48,8 @@ public class PictureController {
 
     @Autowired
     AbstractCacheTemplate cacheTemplate;
+    @Autowired
+    private SpaceService spaceService;
 
     @PostMapping("/upload")
     public BaseResponse<PictureVO> uploadPicture(@RequestPart("file")MultipartFile multipartFile,
@@ -135,6 +138,12 @@ public class PictureController {
         ThrowUtils.throwIf(id <= 0,ErrorCode.PARAMS_ERROR);
         Picture p = pictureService.getById(id);
         ThrowUtils.throwIf(p == null, ErrorCode.NOT_FOUND_ERROR, "图片不存在");
+        // 空间权限
+        Long spaceId = p.getSpaceId();
+        if (spaceId != null){
+            User loginUser = userService.getLoginUser(request);
+            pictureService.checkPictureAuth(p,loginUser);
+        }
         return ResultUtils.success(pictureService.getPictureVO(p,request));
     }
 
@@ -167,8 +176,19 @@ public class PictureController {
 
         ThrowUtils.throwIf(size > 20,ErrorCode.PARAMS_ERROR);
 
-        // 普通用户只能看过审图片
-        queryRequest.setReviewStatus(PictureReviewStatusEnum.PASS.getValue());
+        Long spaceId = queryRequest.getSpaceId();
+        if (spaceId == null){
+            // 普通用户只能看过审图片
+            queryRequest.setReviewStatus(PictureReviewStatusEnum.PASS.getValue());
+            queryRequest.setNullSpaceId(true);
+        }else{
+            // 私有空间
+            User loginUser = userService.getLoginUser(request);
+            Space space = spaceService.getById(spaceId);
+            ThrowUtils.throwIf(space == null, ErrorCode.NOT_FOUND_ERROR,"空间不存在");
+            if (!loginUser.getId().equals(space.getUserId())) throw new BusinessException(ErrorCode.NO_AUTH_ERROR,"没有空间权限");
+        }
+
         // 操作数据库
         Page<Picture> picturePage = pictureService.page(new Page<>(current, size),
                 pictureService.getQueryWrapper(queryRequest));
@@ -286,6 +306,14 @@ public class PictureController {
 
         // 返回结果
         return ResultUtils.success(pictureVOPage);
+    }
+
+    @PostMapping("/edit/batch")
+    public BaseResponse<Boolean> editPictureByBatch(@RequestBody PictureEditByBatchRequest pictureEditByBatchRequest, HttpServletRequest request) {
+        ThrowUtils.throwIf(pictureEditByBatchRequest == null, ErrorCode.PARAMS_ERROR);
+        User loginUser = userService.getLoginUser(request);
+        pictureService.editPictureByBatch(pictureEditByBatchRequest, loginUser);
+        return ResultUtils.success(true);
     }
 
 

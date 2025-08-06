@@ -20,6 +20,11 @@ public class Picture implements Serializable {
     private Long id;
 
     /**
+     * 空间 id
+     */
+    private Long spaceId;
+
+    /**
      * 图片 url
      */
     private String url;
@@ -108,6 +113,11 @@ public class Picture implements Serializable {
      * 审核时间
      */
     private Date reviewTime;
+
+    /**
+     * 图片主色调
+     */
+    private String picColor;
 
     /**
      * 是否删除

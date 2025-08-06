@@ -10,7 +10,7 @@ import com.liyiwei.picturebase.exception.BusinessException;
 import com.liyiwei.picturebase.exception.ErrorCode;
 import com.liyiwei.picturebase.model.dto.user.UserQueryRequest;
 import com.liyiwei.picturebase.model.entity.User;
-import com.liyiwei.picturebase.model.entity.UserRoleEnum;
+import com.liyiwei.picturebase.model.enums.UserRoleEnum;
 import com.liyiwei.picturebase.model.vo.LoginUserVO;
 import com.liyiwei.picturebase.model.vo.UserVO;
 import com.liyiwei.picturebase.service.UserService;

@@ -23,6 +23,11 @@ public class PictureVO implements Serializable {
     private Long id;
 
     /**
+     * 空间id
+     */
+    private Long spaceId;
+
+    /**
      * 图片url
      */
     private String url;
@@ -96,6 +101,31 @@ public class PictureVO implements Serializable {
      * 创建用户的信息
      */
     private UserVO user;
+
+    /**
+     * 图片主色调
+     */
+    private String picColor;
+
+    /**
+     * 审核状态（0: 待审核, 1: 审核通过, 2: 审核不通过）
+     */
+    private Integer reviewStatus;
+
+    /**
+     * 审核消息
+     */
+    private String reviewMessage;
+
+//    /**
+//     * 审核人 id
+//     */
+//    private Long reviewerId;
+
+    /**
+     * 审核时间
+     */
+    private Date reviewTime;
 
     private static final long serialVersionUID = 1L;
 

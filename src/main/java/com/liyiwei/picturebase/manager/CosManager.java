@@ -48,4 +48,13 @@ public class CosManager {
         return cosClient.putObject(putObjectRequest);
     }
 
+    /**
+     * 删除对象
+     *
+     * @param key
+     */
+    public void deleteObject(String key){
+        cosClient.deleteObject(cosClientConfig.getBucket(), key);
+    }
+
 }

@@ -1,22 +1,21 @@
-package com.liyiwei.picturebase.model.dto.picture;
+package com.liyiwei.picturebase.model.dto.search;
 
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-public class PictureUploadRequest implements Serializable {
+public class SearchPicturesByColorRequest implements Serializable {
 
     /**
-     * 图片id 用于修改
+     * 图片主色调
      */
-    private Long id;
+    private String picColor;
 
     /**
      * 空间 id
      */
     private Long spaceId;
-
 
     private static final long serialVersionUID = 1L;
 }
