@@ -1,6 +1,7 @@
-package com.liyiwei.picturebase.model.vo;
+package com.liyiwei.picturebase.model.vo.space;
 
 import com.liyiwei.picturebase.model.entity.Space;
+import com.liyiwei.picturebase.model.vo.UserVO;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 

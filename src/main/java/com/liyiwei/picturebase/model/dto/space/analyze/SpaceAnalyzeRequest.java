@@ -1,4 +1,4 @@
-package com.liyiwei.picturebase.model.vo.analyze;
+package com.liyiwei.picturebase.model.dto.space.analyze;
 
 import lombok.Data;
 
