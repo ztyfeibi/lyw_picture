@@ -129,6 +129,8 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
     @Override
     public PictureVO uploadPicture(MultipartFile multipartFile, PictureUploadRequest pictureUploadRequest, User loginUser) {
         ThrowUtils.throwIf(loginUser == null, ErrorCode.NO_AUTH_ERROR);
+        ThrowUtils.throwIf(pictureUploadRequest == null, ErrorCode.PARAMS_ERROR);
+
         // 校验空间是否存在
         Long spaceId = pictureUploadRequest.getSpaceId();
         if (spaceId != null) {
@@ -142,8 +144,7 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
         }
 
         // 用于判断是新增还是更新图片
-        Long pictureId = null;
-        if (pictureUploadRequest != null) pictureId = pictureUploadRequest.getId();
+        Long pictureId = pictureUploadRequest.getId();
 
         // 如果是更新图片，需要校验图片是否存在
         if (pictureId != null) {
@@ -230,14 +231,11 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
     @Override
     public Page<PictureVO> getPictureVOPage(Page<Picture> picturePage, HttpServletRequest request) {
         List<Picture> pictureList = picturePage.getRecords();
-
         Page<PictureVO> pictureVOPage = new Page<>(picturePage.getCurrent(), picturePage.getSize(), picturePage.getTotal());
         if (CollUtil.isEmpty(pictureList)) return pictureVOPage;
 
-        //TODO toList而不是原来的Collectors
         // 对象列表 -》 封装对象列表
-        List<PictureVO> pictureVOList = pictureList.stream().map(PictureVO::obj2Vo)
-                .toList();
+        List<PictureVO> pictureVOList = pictureList.stream().map(PictureVO::obj2Vo).collect(Collectors.toList());
         // 关联查询用户信息
         Set<Long> userIdSet = pictureList.stream()
                 .map(Picture::getUserId)
@@ -405,7 +403,8 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
         Space space = spaceService.getById(spaceId);
         ThrowUtils.throwIf(space == null, ErrorCode.NOT_FOUND_ERROR,"空间不存在");
         if (!loginUser.getId().equals(space.getUserId())) throw new BusinessException(ErrorCode.NO_AUTH_ERROR,"没有空间访问权限");
-        // 查询空间下所以图片（必须有主色调）
+
+        // 查询空间下所有图片（必须有主色调）
         List<Picture> pictureList = this.lambdaQuery()
                 .eq(Picture::getSpaceId,space)
                 .isNotNull(Picture::getPicColor)

@@ -4,6 +4,7 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.liyiwei.picturebase.annotation.AuthCheck;
+import com.liyiwei.picturebase.api.ImageSearchApiFacade;
 import com.liyiwei.picturebase.cache.AbstractCacheTemplate;
 import com.liyiwei.picturebase.common.BaseResponse;
 import com.liyiwei.picturebase.common.DeleteRequest;
@@ -22,6 +23,7 @@ import com.liyiwei.picturebase.model.vo.PictureVO;
 import com.liyiwei.picturebase.service.PictureService;
 import com.liyiwei.picturebase.service.SpaceService;
 import com.liyiwei.picturebase.service.UserService;
+import com.qcloud.cos.model.ciModel.image.ImageSearchResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -316,5 +318,22 @@ public class PictureController {
         return ResultUtils.success(true);
     }
 
+//    /**
+//     * 图片检索 通过图片
+//     * @param searchByPRequest
+//     * @return
+//     */
+//    @PostMapping("/search/picture")
+//    public BaseResponse<List<ImageSearchResponse>> searchPictureByPicture(@RequestBody PictureSearchByPRequest searchByPRequest) {
+//        ThrowUtils.throwIf(searchByPRequest == null, ErrorCode.PARAMS_ERROR);
+//        Long picId = searchByPRequest.getPictureId();
+//        ThrowUtils.throwIf(picId == null || picId <= 0, ErrorCode.PARAMS_ERROR, "图片id不能为空");
+//        Picture picture = pictureService.getById(picId);
+//        ThrowUtils.throwIf(picture == null, ErrorCode.NOT_FOUND_ERROR, "图片不存在");
+//
+//        String searchUrl = picture.getUrl();
+//        List<ImageSearchResponse> searchResults = ImageSearchApiFacade.searchPicture(searchUrl);
+//        return ResultUtils.success(searchResults);
+//    }
 
 }

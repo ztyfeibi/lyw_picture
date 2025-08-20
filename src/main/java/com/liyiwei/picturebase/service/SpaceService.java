@@ -4,6 +4,8 @@ import com.liyiwei.picturebase.model.dto.space.SpaceAddRequest;
 import com.liyiwei.picturebase.model.entity.Space;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.liyiwei.picturebase.model.entity.User;
+import com.liyiwei.picturebase.model.vo.space.SpaceVO;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
 * @author 16001
@@ -40,4 +42,12 @@ public interface SpaceService extends IService<Space> {
      * @param space
      */
     void checkSpaceAuth(User loginUser, Space space);
+
+    /**
+     * 获取空间视图对象
+     * @param space
+     * @param request
+     * @return
+     */
+    SpaceVO getSpaceVO(Space space, HttpServletRequest request);
 }

@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class SpaceVo implements Serializable {
+public class SpaceVO implements Serializable {
 
     /**
      * 空间id
@@ -66,6 +66,12 @@ public class SpaceVo implements Serializable {
      */
     private UserVO user;
 
+    /**
+     * 空间类型：0-个人空间 1-团队空间
+     */
+    private Integer spaceType;
+
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -73,7 +79,7 @@ public class SpaceVo implements Serializable {
      * @param spaceVo
      * @return
      */
-    public static Space vo2Obj(SpaceVo spaceVo){
+    public static Space vo2Obj(SpaceVO spaceVo){
         if (spaceVo == null) return null;
 
         Space space = new Space();
@@ -86,10 +92,10 @@ public class SpaceVo implements Serializable {
      * @param space
      * @return
      */
-    public static SpaceVo obj2Vo(Space space){
+    public static SpaceVO obj2Vo(Space space){
         if (space == null) return null;
 
-        SpaceVo spaceVo = new SpaceVo();
+        SpaceVO spaceVo = new SpaceVO();
         BeanUtils.copyProperties(space, spaceVo);
         return spaceVo;
     }
