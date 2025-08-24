@@ -6,6 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.liyiwei.picturebase.auth.stpUtil.StpKit;
 import com.liyiwei.picturebase.exception.BusinessException;
 import com.liyiwei.picturebase.exception.ErrorCode;
 import com.liyiwei.picturebase.model.dto.user.UserQueryRequest;
@@ -99,6 +100,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
 
         request.getSession().setAttribute(USER_LOGIN_STATE, user);
+        // 记录用户登录状态到Sa-token，注意保持该用户信息与SpringSession中的信息过期时间一致
+        StpKit.SPACE.login(user.getId());
+        StpKit.SPACE.getSession().set(USER_LOGIN_STATE, user);
         return this.getLoginUserVO(user);
     }
 

@@ -1,4 +1,4 @@
-package com.liyiwei.picturebase.auth;
+package com.liyiwei.picturebase.auth.stpUtil;
 
 import cn.dev33.satoken.stp.StpLogic;
 import cn.dev33.satoken.stp.StpUtil;
