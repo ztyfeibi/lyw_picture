@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -126,6 +127,11 @@ public class PictureVO implements Serializable {
      * 审核时间
      */
     private Date reviewTime;
+
+    /**
+     * 空间权限列表
+     */
+    private List<String> permissionList = new ArrayList<>();
 
     private static final long serialVersionUID = 1L;
 

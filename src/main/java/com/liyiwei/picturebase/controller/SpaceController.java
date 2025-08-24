@@ -1,6 +1,7 @@
 package com.liyiwei.picturebase.controller;
 
 import com.liyiwei.picturebase.annotation.AuthCheck;
+import com.liyiwei.picturebase.auth.SpaceUserAuthManager;
 import com.liyiwei.picturebase.common.BaseResponse;
 import com.liyiwei.picturebase.common.ResultUtils;
 import com.liyiwei.picturebase.exception.BusinessException;
@@ -10,8 +11,12 @@ import com.liyiwei.picturebase.model.constant.UserConstant;
 import com.liyiwei.picturebase.model.dto.space.SpaceUpdateRequest;
 import com.liyiwei.picturebase.model.entity.Space;
 import com.liyiwei.picturebase.model.entity.SpaceLevel;
+import com.liyiwei.picturebase.model.entity.User;
 import com.liyiwei.picturebase.model.enums.SpaceLevelEnum;
+import com.liyiwei.picturebase.model.vo.space.SpaceVO;
 import com.liyiwei.picturebase.service.SpaceService;
+import com.liyiwei.picturebase.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -27,6 +32,25 @@ public class SpaceController {
 
     @Autowired
     private SpaceService spaceService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private SpaceUserAuthManager spaceUserAuthManager;
+
+    @GetMapping("/get/vo")
+    public BaseResponse<SpaceVO> getSpaceVOById(long id, HttpServletRequest request) {
+        ThrowUtils.throwIf(id <= 0, ErrorCode.PARAMS_ERROR);
+        // 查询数据库
+        Space space = spaceService.getById(id);
+        ThrowUtils.throwIf(space == null, ErrorCode.NOT_FOUND_ERROR);
+        SpaceVO spaceVO = spaceService.getSpaceVO(space, request);
+        User loginUser = userService.getLoginUser(request);
+        List<String> permissionList = spaceUserAuthManager.getPermissionList(space, loginUser);
+        spaceVO.setPermissionList(permissionList);
+        // 获取封装类
+        return ResultUtils.success(spaceVO);
+    }
+
 
     /**
      * 更新空间，仅管理员

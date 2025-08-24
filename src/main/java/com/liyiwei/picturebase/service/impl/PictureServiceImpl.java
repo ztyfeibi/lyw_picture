@@ -137,7 +137,7 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
             Space space = spaceService.getById(spaceId);
             ThrowUtils.throwIf(space == null, ErrorCode.NOT_FOUND_ERROR,"空间不存在");
             // 必须空间创始人、管理员才能上传
-            if (!loginUser.getId().equals(space.getUserId())) throw new BusinessException(ErrorCode.NO_AUTH_ERROR,"没有空间权限");
+//            if (!loginUser.getId().equals(space.getUserId())) throw new BusinessException(ErrorCode.NO_AUTH_ERROR,"没有空间权限");
             // 额度校验
             if (space.getTotalCount() >= space.getMaxCount()) throw new BusinessException(ErrorCode.OPERATION_ERROR,"空间条数不足");
             if (space.getTotalSize() >= space.getMaxSize()) throw new BusinessException(ErrorCode.OPERATION_ERROR,"空间大小不足");
@@ -151,9 +151,9 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
             Picture oldPicture = this.getById(pictureId);
             ThrowUtils.throwIf(oldPicture == null, ErrorCode.NOT_FOUND_ERROR,"图片不存在");
             // 仅本人、管理员可以更新图片
-            if (!oldPicture.getUserId().equals(loginUser.getId()) && !userService.isAdmin(loginUser)) {
-                throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
-            }
+//            if (!oldPicture.getUserId().equals(loginUser.getId()) && !userService.isAdmin(loginUser)) {
+//                throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
+//            }
             // 校验空间是否一致
             if (spaceId == null){
                 if (oldPicture.getSpaceId() != null) {
@@ -398,7 +398,7 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
     public List<PictureVO> searchPictureByColor(Long spaceId, String picColor, User loginUser) {
         // 校验参数
         ThrowUtils.throwIf(spaceId == null || StrUtil.isBlank(picColor),ErrorCode.PARAMS_ERROR);
-        ThrowUtils.throwIf(loginUser == null,ErrorCode.NO_AUTH_ERROR);
+//        ThrowUtils.throwIf(loginUser == null,ErrorCode.NO_AUTH_ERROR);
         // 空间校验
         Space space = spaceService.getById(spaceId);
         ThrowUtils.throwIf(space == null, ErrorCode.NOT_FOUND_ERROR,"空间不存在");

@@ -1,6 +1,8 @@
 package com.liyiwei.picturebase.controller;
 
 import cn.hutool.core.util.ObjUtil;
+import com.liyiwei.picturebase.annotation.SaSpaceCheckPermission;
+import com.liyiwei.picturebase.auth.SpaceUserPermissionConstant;
 import com.liyiwei.picturebase.common.BaseResponse;
 import com.liyiwei.picturebase.common.DeleteRequest;
 import com.liyiwei.picturebase.common.ResultUtils;
@@ -39,6 +41,7 @@ public class SpaceUserController {
      * 添加空间用户
      */
     @PostMapping("/add")
+    @SaSpaceCheckPermission(value = SpaceUserPermissionConstant.SPACE_USER_MANAGE)
     public BaseResponse<Long> addSpaceUser(@RequestBody SpaceUserAddRequest addRequest, HttpServletRequest request) {
         ThrowUtils.throwIf(addRequest == null, ErrorCode.PARAMS_ERROR);
         long id = spaceUserService.addSpaceUser(addRequest);
@@ -49,6 +52,7 @@ public class SpaceUserController {
      * 删除空间用户
      */
     @PostMapping("/delete")
+    @SaSpaceCheckPermission(value = SpaceUserPermissionConstant.SPACE_USER_MANAGE)
     public BaseResponse<Boolean> deleteSpaceUser(@RequestBody DeleteRequest deleteRequest, HttpServletRequest request) {
         ThrowUtils.throwIf(deleteRequest == null || deleteRequest.getId() <= 0, ErrorCode.PARAMS_ERROR);
         long id = deleteRequest.getId();
@@ -64,6 +68,7 @@ public class SpaceUserController {
      * 获取某个空间的某个用户信息
      */
     @PostMapping("/get")
+    @SaSpaceCheckPermission(value = SpaceUserPermissionConstant.SPACE_USER_MANAGE)
     public BaseResponse<SpaceUser> getSpaceUser(@RequestBody SpaceUserQueryRequest userQueryRequest) {
         ThrowUtils.throwIf(userQueryRequest == null, ErrorCode.PARAMS_ERROR);
         Long spaceId = userQueryRequest.getSpaceId();
@@ -78,6 +83,7 @@ public class SpaceUserController {
      * 获取空间用户列表
      */
     @PostMapping("/list")
+    @SaSpaceCheckPermission(value = SpaceUserPermissionConstant.SPACE_USER_MANAGE)
     public BaseResponse<List<SpaceUserVO>> listSpaceUser(@RequestBody SpaceUserQueryRequest userQueryRequest, HttpServletRequest request) {
         ThrowUtils.throwIf(userQueryRequest == null, ErrorCode.PARAMS_ERROR);
         List<SpaceUser> spaceUserList = spaceUserService.list(
@@ -90,6 +96,7 @@ public class SpaceUserController {
      * 编辑空间用户信息
      */
     @PostMapping("/edit")
+    @SaSpaceCheckPermission(value = SpaceUserPermissionConstant.SPACE_USER_MANAGE)
     public BaseResponse<Boolean> editSpaceUser(@RequestBody SpaceUserEditRequest editRequest, HttpServletRequest request) {
         if (editRequest == null || editRequest.getId() <= 0) throw new BusinessException(ErrorCode.PARAMS_ERROR);
         SpaceUser spaceUser = new SpaceUser();
