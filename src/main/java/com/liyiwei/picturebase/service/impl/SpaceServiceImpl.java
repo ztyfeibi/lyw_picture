@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.liyiwei.picturebase.exception.BusinessException;
 import com.liyiwei.picturebase.exception.ErrorCode;
 import com.liyiwei.picturebase.exception.ThrowUtils;
+import com.liyiwei.picturebase.manager.sharding.DynamicShardingManager;
 import com.liyiwei.picturebase.model.dto.space.SpaceAddRequest;
 import com.liyiwei.picturebase.model.entity.Space;
 import com.liyiwei.picturebase.model.entity.SpaceUser;
@@ -38,11 +39,12 @@ public class SpaceServiceImpl extends ServiceImpl<SpaceMapper, Space>
 
     @Autowired
     private UserService userService;
-
     @Autowired
     private TransactionTemplate transactionTemplate;
     @Autowired
     private SpaceUserService spaceUserService;
+    @Autowired
+    private DynamicShardingManager dynamicShardingManager;
 
     @Override
     public void validSpace(Space space, boolean add) {
@@ -143,6 +145,8 @@ public class SpaceServiceImpl extends ServiceImpl<SpaceMapper, Space>
                     res = spaceUserService.save(spaceUser);
                     ThrowUtils.throwIf(res, ErrorCode.OPERATION_ERROR,"创建团队成员失败");
                 }
+                // 创建分表
+                dynamicShardingManager.createSpacePictureTable(space);
                 return space.getId();
             });
             // 返回结果是包装类，可以做一些处理

@@ -20,7 +20,7 @@ public class SaTokenConfigure implements WebMvcConfigurer {
 
     @PostConstruct
     public void rewriteSaStrategy() {
-        // 重写Sa-Token的注解处理器，增加注解合并功能
+        // 重写Sa-Token的注解处理器，增加注解合并功能，使得子类可继承父类的注解
         SaAnnotationStrategy.instance.getAnnotation = (element, annotationClass) -> {
             return AnnotatedElementUtils.getMergedAnnotation(element, annotationClass);
         };

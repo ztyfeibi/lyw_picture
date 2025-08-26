@@ -1,39 +1,3 @@
-server:
-  port: 8080
-  servlet:
-    context-path: /api
-    session:
-      cookie:
-        max-age: 2592000
-
 spring:
   profiles:
     active: local
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://localhost:3306/yu_picture?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: root
-    password: li130214
-  data:
-    cache:
-      enabled: true
-      type: redis
-    redis:
-      database: 0
-      host: 127.0.0.1
-      port: 6379
-      timeout: 5000
-  session:
-    store-type: redis
-    timeout: 2592000
-
-mybatis-plus:
-  global-config:
-    db-config:
-      id-type: auto
-      logic-delete-field: isDeleted
-      logic-not-delete-value: 0
-      logic-delete-value: 1
-  configuration:
-    map-underscore-to-camel-case: false
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

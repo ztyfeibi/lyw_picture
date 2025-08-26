@@ -44,6 +44,7 @@ TODO
  todo
   各个方法总结 colutil、strutil
     map的用法
+    session会放在哪？内存、文件？
 
   以图搜图
  */
